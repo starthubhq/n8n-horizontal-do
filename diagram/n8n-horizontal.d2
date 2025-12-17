@@ -1,0 +1,65 @@
+# Direction set to Left-to-Right
+direction: right
+
+Load Balancer: {
+  shape: image
+  icon: ./load-balancer.png
+}
+
+VPC: {
+  style.stroke-dash: 5
+
+  Main -> Workers: {
+    style.stroke-dash: 5
+    style.animated: true
+  }
+
+  Main -> Redis: {
+    style.stroke-dash: 5
+    style.animated: true
+  }
+  
+  Main: {
+    icon: ./droplet.png
+  }
+  
+  Workers: {
+    Worker 1: {
+      shape: image
+      icon: ./droplet.png
+    }
+    Worker 2: {
+      shape: image
+      icon: ./droplet.png
+    }
+    Worker 3: {
+      shape: image
+      icon: ./droplet.png
+    }
+  }
+
+  
+  Workers -> Redis: {
+    style.stroke-dash: 5
+    style.animated: true
+  }
+  Workers -> Postgres: {
+    style.stroke-dash: 5
+    style.animated: true
+  }
+
+  # Styling for the databases
+  Redis: {
+    shape: image
+    icon: ./dbaas-primary.png
+  }
+  Postgres: {
+    shape: image
+    icon: ./dbaas-primary.png
+  }
+}
+
+Load Balancer -> VPC.Main: {
+  style.stroke-dash: 5
+  style.animated: true
+}

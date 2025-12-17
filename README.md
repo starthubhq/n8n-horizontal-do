@@ -1,0 +1,1 @@
+d2 --watch --port 8080 --host 0.0.0.0 n8n-horizontal.d2 diagram.svg --layout=elk

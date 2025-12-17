@@ -1,0 +1,9 @@
+# Terraform/OpenTofu files
+*.tfvars
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Keep the example file
+!.tfvars.example

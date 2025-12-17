@@ -1,0 +1,96 @@
+# DigitalOcean API Token (required)
+# Get your token from: https://cloud.digitalocean.com/account/api/tokens
+do_token = "your-digitalocean-api-token-here"
+
+# Database cluster configuration
+cluster_name    = "tommaso-cluster"
+postgres_version = "16"
+db_size         = "db-s-1vcpu-1gb"
+region          = "nyc1"
+node_count      = 1
+
+# Database user
+# Note: DigitalOcean automatically creates 'defaultdb' database and 'doadmin' user
+# You can create additional users if needed
+database_user = "doadmin"
+
+# Tags for resource organization
+tags = ["production", "postgres"]
+
+# Maintenance window
+maintenance_day  = "sunday"
+maintenance_hour = "02"
+
+# Firewall rules - allow connections from specific IPs or droplet tags
+# Example: Allow from a specific IP
+# allowed_sources = [
+#   {
+#     type  = "ip_addr"
+#     value = "192.168.1.1"
+#   }
+# ]
+
+# Example: Allow from all droplets with a specific tag
+# allowed_sources = [
+#   {
+#     type  = "tag"
+#     value = "web-servers"
+#   }
+# ]
+
+allowed_sources = []
+
+# Valkey (Redis-compatible) Database Configuration
+valkey_cluster_name = "valkey-cluster"
+valkey_version      = "8"
+valkey_size         = "db-s-1vcpu-1gb"
+valkey_region       = "nyc1"
+valkey_node_count   = 1
+valkey_user         = "doadmin"
+
+# Tags for Valkey cluster
+valkey_tags = ["production", "valkey", "redis"]
+
+# Firewall rules for Valkey - allow connections from specific IPs or droplet tags
+# Example: Allow from a specific IP
+# valkey_allowed_sources = [
+#   {
+#     type  = "ip_addr"
+#     value = "192.168.1.1"
+#   }
+# ]
+
+# Example: Allow from all droplets with a specific tag
+# valkey_allowed_sources = [
+#   {
+#     type  = "tag"
+#     value = "web-servers"
+#   }
+# ]
+
+valkey_allowed_sources = []
+
+# Worker Droplets Configuration
+worker_count       = 3
+worker_name_prefix = "n8n-worker"
+worker_size        = "s-1vcpu-1gb"
+worker_image       = "ubuntu-22-04-x64"
+worker_region      = "nyc1"
+worker_tags        = ["n8n", "worker", "production"]
+
+# SSH Keys - IMPORTANT: Add your SSH key IDs or fingerprints
+# Get your SSH keys from: https://cloud.digitalocean.com/account/security
+# Example: ssh_keys = ["12:34:56:78:90:ab:cd:ef", "aa:bb:cc:dd:ee:ff"]
+ssh_keys = []
+
+# Optional: Cloud-init user data script for worker initialization
+# This script will run on first boot of each worker
+# Example:
+# worker_user_data = <<-EOF
+#   #!/bin/bash
+#   apt-get update
+#   apt-get install -y docker.io
+#   systemctl start docker
+#   systemctl enable docker
+# EOF
+worker_user_data = ""
