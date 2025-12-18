@@ -6,7 +6,7 @@ The deployment uses initialization scripts to automatically configure n8n on fir
 
 The main droplet automatically runs `main-init.sh` on first boot, which:
 
-- Sets `EXECUTIONS_MODE=queue` (enables n8n queue mode for horizontal scaling)
+- Sets `EXECUTIONS_MODE=queue` (enables n8n queue mode for production grade horizontal n8n)
 - Creates Docker volume for n8n data persistence
 - Starts n8n container with Docker
 - Connects to PostgreSQL database (for workflows, credentials, execution history)
@@ -17,7 +17,7 @@ The main droplet automatically runs `main-init.sh` on first boot, which:
 
 ### Queue Mode Configuration
 
-The main instance is configured for optimal horizontal scaling:
+The main instance is configured for optimal production grade horizontal n8n:
 
 - **EXECUTIONS_MODE=queue**: Uses queue system for distributing work
 - **OFFLOAD_MANUAL_EXECUTIONS_TO_WORKERS=true**: Routes manual executions to workers

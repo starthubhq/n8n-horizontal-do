@@ -1,6 +1,6 @@
 # Architecture Overview
 
-This document describes the architecture of the n8n horizontal scaling deployment on DigitalOcean.
+This document describes the architecture of the production grade horizontal n8n deployment on DigitalOcean.
 
 ## High-Level Architecture
 
@@ -108,7 +108,7 @@ All resources are deployed within a **single DigitalOcean VPC** for secure priva
 
 ## Scaling
 
-### Horizontal Scaling
+### Production Grade Horizontal n8n
 
 Add or remove worker droplets based on workload:
 

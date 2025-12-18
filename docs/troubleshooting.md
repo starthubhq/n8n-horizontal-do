@@ -1,6 +1,6 @@
 # Troubleshooting
 
-Common issues and solutions when deploying n8n with horizontal scaling on DigitalOcean.
+Common issues and solutions when deploying production grade horizontal n8n on DigitalOcean.
 
 ## Initialization Issues
 

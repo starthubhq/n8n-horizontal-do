@@ -1,6 +1,6 @@
 {
   "name": "n8n-horizontal-do",
-  "description": "Deploys n8n with horizontal scaling on DigitalOcean using Terraform. Creates PostgreSQL and Valkey database clusters, main droplet, worker droplets, VPC, and optionally a load balancer with DNS.",
+  "description": "Deploys production grade horizontal n8n on DigitalOcean using Terraform. Creates PostgreSQL and Valkey database clusters, main droplet, worker droplets, VPC, and optionally a load balancer with DNS.",
   "version": "0.0.1",
   "kind": "docker",
   "manifest_version": 1,

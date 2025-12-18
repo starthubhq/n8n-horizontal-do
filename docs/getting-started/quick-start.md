@@ -1,6 +1,6 @@
 # Quick Start
 
-Get your n8n horizontal scaling deployment up and running in minutes.
+Get your production grade horizontal n8n deployment up and running in minutes.
 
 ## Prerequisites
 

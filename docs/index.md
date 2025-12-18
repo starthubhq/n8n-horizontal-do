@@ -1,13 +1,13 @@
-# n8n Horizontal Scaling on DigitalOcean
+# Production Grade Horizontal n8n on DigitalOcean
 
-Welcome to the documentation for deploying n8n with horizontal scaling on DigitalOcean.
+Welcome to the documentation for deploying production grade horizontal n8n on DigitalOcean.
 
 ![Architecture Diagram](diagram/ee.png)
 
 This Terraform configuration deploys a production-ready n8n setup with:
 
 - ✅ **PostgreSQL database cluster** - Managed database for n8n data
-- ✅ **Valkey (Redis) database cluster** - Queue backend for horizontal scaling
+- ✅ **Valkey (Redis) database cluster** - Queue backend for production grade horizontal n8n
 - ✅ **Main droplet** - n8n coordinator/web UI
 - ✅ **Worker droplets** - Scalable n8n workers for execution
 - ✅ **VPC** - Secure private networking between resources
@@ -21,7 +21,7 @@ This Terraform configuration deploys a production-ready n8n setup with:
 
 ## Features
 
-### Horizontal Scaling
+### Production Grade Horizontal n8n
 
 Scale your n8n workers independently based on workload. Add or remove worker droplets as needed.
 

@@ -1,6 +1,6 @@
-# 🤖 n8n Horizontal Scaling on DigitalOcean
+# 🤖 Production Grade Horizontal n8n on DigitalOcean
 
-Deploys n8n with horizontal scaling on DigitalOcean using Terraform. Creates PostgreSQL and Valkey database clusters, main droplet, worker droplets, VPC, and optionally a load balancer with DNS.
+Deploys production grade horizontal n8n on DigitalOcean using Terraform. Creates PostgreSQL and Valkey database clusters, main droplet, worker droplets, VPC, and optionally a load balancer with DNS.
 
 ![Architecture Diagram](diagram/ee.png)
 
@@ -90,7 +90,7 @@ The module will:
 2. Create PostgreSQL database cluster (managed database)
 3. Create Valkey (Redis-compatible) database cluster (managed database)
 4. Create main droplet with n8n coordinator/web UI
-5. Create worker droplets for horizontal scaling
+5. Create worker droplets for production grade horizontal n8n
 6. Configure private networking between all resources
 7. Optionally create load balancer and DNS records (if domain_name is provided)
 8. Initialize n8n on all droplets with Docker
@@ -120,7 +120,7 @@ echo '["your-token", "nyc1", "aa:bb:cc:dd:ee:ff", "3", "", ""]' | docker run -i 
 
 - ✅ Uses Terraform for infrastructure provisioning
 - ✅ Creates managed PostgreSQL and Valkey database clusters
-- ✅ Deploys n8n with horizontal scaling support
+- ✅ Deploys production grade horizontal n8n
 - ✅ Configures VPC for secure private networking
 - ✅ Automatically initializes n8n on all droplets with Docker
 - ✅ Supports optional load balancer and DNS setup

@@ -1,6 +1,6 @@
 # Prerequisites
 
-Before deploying n8n with horizontal scaling on DigitalOcean, ensure you have the following:
+Before deploying production grade horizontal n8n on DigitalOcean, ensure you have the following:
 
 ## Required Accounts & Services
 

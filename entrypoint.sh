@@ -43,7 +43,7 @@ fi
 # Validate required parameters (after applying defaults)
 [ -n "${DO_TOKEN:-}" ] || { echo "Error: do_token missing" >&2; exit 1; }
 
-echo "🚀 Deploying n8n with horizontal scaling on DigitalOcean..." >&2
+echo "🚀 Deploying production grade horizontal n8n on DigitalOcean..." >&2
 
 # Create temporary directory for Terraform files
 TEMP_DIR=$(mktemp -d)
