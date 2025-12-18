@@ -2,6 +2,8 @@
 
 Welcome to the documentation for deploying n8n with horizontal scaling on DigitalOcean.
 
+![Architecture Diagram](diagram/ee.png)
+
 This Terraform configuration deploys a production-ready n8n setup with:
 
 - ✅ **PostgreSQL database cluster** - Managed database for n8n data
