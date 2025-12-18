@@ -1,7 +1,7 @@
 site_name: n8n Horizontal Scaling on DigitalOcean
 site_description: Documentation for deploying n8n with horizontal scaling on DigitalOcean
 
-# GitHub Pages URL
+# GitHub Pages
 site_url: https://starthubhq.github.io/n8n-horizontal-do/
 
 theme:
