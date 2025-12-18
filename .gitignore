@@ -41,3 +41,17 @@ dmypy.json
 *.swp
 *.swo
 *~
+
+*.zip
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.lzma
+*.tar.lz
+*.tar.zst
+*.tar.gz.part
+*.tar.bz2.part
+*.tar.xz.part
+*.tar.lzma.part
+*.tar.lz.part
+*.tar.zst.part

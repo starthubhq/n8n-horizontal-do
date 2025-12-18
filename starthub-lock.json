@@ -16,7 +16,7 @@
     },
     {
       "name": "region",
-      "description": "DigitalOcean region (e.g., nyc1, sfo3, ams3). Defaults to 'nyc1'",
+      "description": "DigitalOcean region (e.g., nyc1, sfo3, ams3)",
       "type": "string",
       "required": false,
       "default": "nyc1"
@@ -30,14 +30,14 @@
     },
     {
       "name": "worker_count",
-      "description": "Number of worker droplets to create. Defaults to 3",
+      "description": "Number of worker droplets to create",
       "type": "string",
       "required": false,
       "default": "3"
     },
     {
       "name": "domain_name",
-      "description": "Domain name for n8n (e.g., n8n.example.com). Leave empty to skip DNS and load balancer setup. Defaults to empty",
+      "description": "Domain name for n8n (e.g., n8n.example.com). Leave empty to skip DNS and load balancer setup.",
       "type": "string",
       "required": false,
       "default": ""
@@ -48,12 +48,264 @@
       "type": "string",
       "required": false,
       "default": ""
+    },
+    {
+      "name": "cluster_name",
+      "description": "Name of the database cluster",
+      "type": "string",
+      "required": false,
+      "default": "postgres-cluster"
+    },
+    {
+      "name": "postgres_version",
+      "description": "PostgreSQL version",
+      "type": "string",
+      "required": false,
+      "default": "16"
+    },
+    {
+      "name": "db_size",
+      "description": "Database size slug (e.g., db-s-1vcpu-1gb, db-s-2vcpu-4gb)",
+      "type": "string",
+      "required": false,
+      "default": "db-s-1vcpu-1gb"
+    },
+    {
+      "name": "node_count",
+      "description": "Number of nodes in the database cluster",
+      "type": "string",
+      "required": false,
+      "default": "1"
+    },
+    {
+      "name": "database_user",
+      "description": "Name of the database user",
+      "type": "string",
+      "required": false,
+      "default": "doadmin"
+    },
+    {
+      "name": "tags",
+      "description": "Tags to apply to the database cluster (JSON array as string, e.g., '[\"production\", \"n8n\"]')",
+      "type": "string",
+      "required": false,
+      "default": "[]"
+    },
+    {
+      "name": "maintenance_day",
+      "description": "Day of the week for maintenance (monday, tuesday, etc.)",
+      "type": "string",
+      "required": false,
+      "default": "sunday"
+    },
+    {
+      "name": "maintenance_hour",
+      "description": "Hour of the day for maintenance (00-23)",
+      "type": "string",
+      "required": false,
+      "default": "02"
+    },
+    {
+      "name": "allowed_sources",
+      "description": "List of firewall rules to allow connections from specific sources (JSON array as string, e.g., '[{\"type\": \"tag\", \"value\": \"n8n\"}]')",
+      "type": "string",
+      "required": false,
+      "default": "[]"
+    },
+    {
+      "name": "valkey_cluster_name",
+      "description": "Name of the Valkey database cluster",
+      "type": "string",
+      "required": false,
+      "default": "valkey-cluster"
+    },
+    {
+      "name": "valkey_version",
+      "description": "Redis/Valkey version",
+      "type": "string",
+      "required": false,
+      "default": "8"
+    },
+    {
+      "name": "valkey_size",
+      "description": "Valkey database size slug (e.g., db-s-1vcpu-1gb, db-s-2vcpu-4gb)",
+      "type": "string",
+      "required": false,
+      "default": "db-s-1vcpu-1gb"
+    },
+    {
+      "name": "valkey_region",
+      "description": "DigitalOcean region for Valkey cluster (e.g., nyc1, sfo3, ams3)",
+      "type": "string",
+      "required": false,
+      "default": "nyc1"
+    },
+    {
+      "name": "valkey_node_count",
+      "description": "Number of nodes in the Valkey database cluster",
+      "type": "string",
+      "required": false,
+      "default": "1"
+    },
+    {
+      "name": "valkey_user",
+      "description": "Name of the Valkey database user",
+      "type": "string",
+      "required": false,
+      "default": "doadmin"
+    },
+    {
+      "name": "valkey_tags",
+      "description": "Tags to apply to the Valkey database cluster (JSON array as string, e.g., '[\"production\", \"valkey\"]')",
+      "type": "string",
+      "required": false,
+      "default": "[]"
+    },
+    {
+      "name": "valkey_allowed_sources",
+      "description": "List of firewall rules to allow connections from specific sources for Valkey (JSON array as string)",
+      "type": "string",
+      "required": false,
+      "default": "[]"
+    },
+    {
+      "name": "worker_name_prefix",
+      "description": "Prefix for worker droplet names (will be followed by index number)",
+      "type": "string",
+      "required": false,
+      "default": "n8n-worker"
+    },
+    {
+      "name": "worker_size",
+      "description": "Droplet size for workers (e.g., s-1vcpu-1gb, s-2vcpu-2gb)",
+      "type": "string",
+      "required": false,
+      "default": "s-1vcpu-1gb"
+    },
+    {
+      "name": "worker_image",
+      "description": "Droplet image/OS for workers (use 'docker-20-04' for Docker pre-installed)",
+      "type": "string",
+      "required": false,
+      "default": "docker-20-04"
+    },
+    {
+      "name": "worker_region",
+      "description": "DigitalOcean region for worker droplets",
+      "type": "string",
+      "required": false,
+      "default": "nyc1"
+    },
+    {
+      "name": "worker_tags",
+      "description": "Tags to apply to worker droplets (JSON array as string, e.g., '[\"n8n\", \"worker\"]')",
+      "type": "string",
+      "required": false,
+      "default": "[\"n8n\", \"worker\"]"
+    },
+    {
+      "name": "worker_user_data",
+      "description": "Optional cloud-init user data script for worker initialization",
+      "type": "string",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "main_name",
+      "description": "Name for the main droplet",
+      "type": "string",
+      "required": false,
+      "default": "n8n-main"
+    },
+    {
+      "name": "main_size",
+      "description": "Droplet size for main instance (e.g., s-1vcpu-1gb, s-2vcpu-2gb)",
+      "type": "string",
+      "required": false,
+      "default": "s-1vcpu-2gb"
+    },
+    {
+      "name": "main_image",
+      "description": "Droplet image/OS for main instance (use 'docker-20-04' for Docker pre-installed)",
+      "type": "string",
+      "required": false,
+      "default": "docker-20-04"
+    },
+    {
+      "name": "main_region",
+      "description": "DigitalOcean region for main droplet",
+      "type": "string",
+      "required": false,
+      "default": "nyc1"
+    },
+    {
+      "name": "main_tags",
+      "description": "Tags to apply to main droplet (JSON array as string, e.g., '[\"n8n\", \"main\"]')",
+      "type": "string",
+      "required": false,
+      "default": "[\"n8n\", \"main\"]"
+    },
+    {
+      "name": "main_user_data",
+      "description": "Optional cloud-init user data script for main instance initialization",
+      "type": "string",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "n8n_timezone",
+      "description": "Timezone for n8n (e.g., America/New_York, Europe/London, UTC)",
+      "type": "string",
+      "required": false,
+      "default": "America/New_York"
+    },
+    {
+      "name": "load_balancer_name",
+      "description": "Name for the load balancer",
+      "type": "string",
+      "required": false,
+      "default": "n8n-lb"
+    },
+    {
+      "name": "load_balancer_size",
+      "description": "Size of the load balancer (lb-small, lb-medium, lb-large)",
+      "type": "string",
+      "required": false,
+      "default": "lb-small"
+    },
+    {
+      "name": "load_balancer_region",
+      "description": "Region for the load balancer (should match main droplet region)",
+      "type": "string",
+      "required": false,
+      "default": "nyc1"
+    },
+    {
+      "name": "ssl_certificate_name",
+      "description": "DigitalOcean certificate name for SSL termination. If not provided and domain_name is set, a Let's Encrypt certificate will be created automatically.",
+      "type": "string",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "dns_domain",
+      "description": "Base domain name for DNS (e.g., 'example.com'). If not provided, will be extracted from domain_name. Required if domain_name is a subdomain.",
+      "type": "string",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "create_dns_record",
+      "description": "Whether to create DNS A record pointing to the load balancer",
+      "type": "string",
+      "required": false,
+      "default": "true"
     }
   ],
   "outputs": [
     {
       "name": "statefile",
-      "description": "Terraform state file in JSON format",
+      "description": "OpenTofu state file in JSON format",
       "type": "string",
       "required": true
     }
@@ -63,4 +315,3 @@
   },
   "mirrors": []
 }
-

@@ -2,7 +2,7 @@
 
 Deploys production grade horizontal n8n on DigitalOcean using OpenTofu. Creates PostgreSQL and Valkey database clusters, main droplet, worker droplets, VPC, and optionally a load balancer with DNS.
 
-![Architecture Diagram](diagram/ee.png)
+![Architecture Diagram](https://raw.githubusercontent.com/starthubhq/n8n-horizontal-do/8fadd85e2c7c01181b7a7d4c82693c691d9b1dfe/diagram/ee.png)
 
 ## Usage
 
