@@ -2,6 +2,8 @@
 
 Deploys n8n with horizontal scaling on DigitalOcean using Terraform. Creates PostgreSQL and Valkey database clusters, main droplet, worker droplets, VPC, and optionally a load balancer with DNS.
 
+![Architecture Diagram](diagram/ee.png)
+
 ## Usage
 
 The module expects a JSON array of values in the following order:
