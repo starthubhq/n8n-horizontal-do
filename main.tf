@@ -256,16 +256,13 @@ resource "digitalocean_loadbalancer" "n8n_lb" {
 }
 
 # Domain resource - register domain in DigitalOcean DNS (required for Let's Encrypt)
-# This creates the domain if it doesn't exist, or uses it if it already exists
-# Use main droplet IP as placeholder - will be updated by DNS record to point to load balancer
+# We don't set ip_address to avoid creating duplicate A records
+# The DNS record will be created separately to point to the load balancer
 resource "digitalocean_domain" "n8n_domain" {
   count = var.domain_name != "" && var.create_dns_record ? 1 : 0
   name  = local.base_domain
-  # Use main droplet IP as placeholder (required by DigitalOcean domain resource)
-  # The actual A record will point to the load balancer
-  ip_address = digitalocean_droplet.main.ipv4_address
-
-  depends_on = [digitalocean_droplet.main]
+  # Don't set ip_address - we'll create the A record separately via digitalocean_record
+  # This prevents creating duplicate A records
 }
 
 # SSL Certificate (Let's Encrypt) - only if domain is provided and no cert name specified
@@ -283,13 +280,14 @@ resource "digitalocean_certificate" "n8n_cert" {
 }
 
 # DNS Record pointing to Load Balancer
-# If domain_name is a subdomain, create A record for subdomain
-# If domain_name is root domain, the domain resource already created the A record
+# Create/update A record for the domain_name (handles both root and subdomains)
+# For root domain (yapago.app), name will be "@"
+# For subdomain (n8n.yapago.app), name will be "n8n"
 resource "digitalocean_record" "n8n_dns" {
-  count  = var.domain_name != "" && var.create_dns_record && local.subdomain != "@" ? 1 : 0
+  count  = var.domain_name != "" && var.create_dns_record ? 1 : 0
   domain = local.base_domain
   type   = "A"
-  name   = local.subdomain
+  name   = local.subdomain == "@" ? "@" : local.subdomain
   value  = digitalocean_loadbalancer.n8n_lb[0].ip
   ttl    = 3600
 
@@ -297,19 +295,9 @@ resource "digitalocean_record" "n8n_dns" {
     digitalocean_loadbalancer.n8n_lb,
     digitalocean_domain.n8n_domain
   ]
-}
 
-# Update domain's root A record to point to load balancer if domain_name is root domain
-resource "digitalocean_record" "n8n_dns_root" {
-  count  = var.domain_name != "" && var.create_dns_record && local.subdomain == "@" ? 1 : 0
-  domain = local.base_domain
-  type   = "A"
-  name   = "@"
-  value  = digitalocean_loadbalancer.n8n_lb[0].ip
-  ttl    = 3600
-
-  depends_on = [
-    digitalocean_loadbalancer.n8n_lb,
-    digitalocean_domain.n8n_domain
-  ]
+  # Prevent Terraform from trying to manage existing records
+  lifecycle {
+    create_before_destroy = true
+  }
 }

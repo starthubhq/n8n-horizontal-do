@@ -7,3 +7,37 @@
 
 # Keep the example file
 !.tfvars.example
+
+# Python virtual environment
+venv/
+.venv/
+env/
+.env/
+ENV/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# MkDocs build output
+site/
+
+# Python IDE
+.python-version
+.pytest_cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

@@ -1,0 +1,66 @@
+site_name: n8n Horizontal Scaling on DigitalOcean
+site_description: Documentation for deploying n8n with horizontal scaling on DigitalOcean
+
+theme:
+  name: material
+  palette:
+    # Light mode
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - admonition
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+  - md_in_html
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Quick Start: getting-started/quick-start.md
+    - Prerequisites: getting-started/prerequisites.md
+  - Configuration:
+    - Variables: configuration/variables.md
+    - Initialization Scripts: configuration/initialization-scripts.md
+  - Architecture:
+    - Overview: architecture/overview.md
+    - Infrastructure: architecture/infrastructure.md
+  - Deployment:
+    - Terraform: deployment/terraform.md
+    - Post-Deployment: deployment/post-deployment.md
+  - Troubleshooting: troubleshooting.md
+
+plugins:
+  - search
+

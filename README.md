@@ -426,6 +426,29 @@ tail -f /var/log/n8n-worker-init.log
 4. Check initialization logs if you encounter issues: `/var/log/n8n-main-init.log`
 5. Complete the n8n setup wizard in your browser
 
+## DNS Record Management
+
+### If Domain Already Exists
+
+If your domain already exists in DigitalOcean (like `yapago.app`):
+
+1. **Set `domain_already_exists = true`** in `variables.tfvars`
+2. **Clean up duplicate A records** manually in DigitalOcean dashboard:
+   - Go to Networking → Domains → `yapago.app`
+   - Delete duplicate A records pointing to old IPs
+   - Keep only the A record pointing to your load balancer IP
+
+3. **Import existing domain into Terraform** (optional):
+   ```bash
+   terraform import digitalocean_domain.n8n_domain[0] yapago.app
+   ```
+
+### DNS Record Behavior
+
+- **Root domain** (`yapago.app`): Creates/updates A record with name `@`
+- **Subdomain** (`n8n.yapago.app`): Creates/updates A record with name `n8n`
+- Terraform will manage the A record pointing to the load balancer IP
+
 ## Cleanup
 
 ```bash
