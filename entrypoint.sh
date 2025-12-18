@@ -45,11 +45,11 @@ fi
 
 echo "🚀 Deploying production grade horizontal n8n on DigitalOcean..." >&2
 
-# Create temporary directory for Terraform files
+# Create temporary directory for OpenTofu files
 TEMP_DIR=$(mktemp -d)
 cd "$TEMP_DIR"
 
-# Copy Terraform files from /app
+# Copy OpenTofu files from /app
 if [ -f "/app/main.tf" ]; then
   cp /app/main.tf .
 else
@@ -73,8 +73,8 @@ if [ -f "/app/worker-init.sh" ]; then
   cp /app/worker-init.sh .
 fi
 
-# Parse SSH keys from comma-separated string to Terraform list format
-# Terraform accepts JSON arrays in tfvars files
+# Parse SSH keys from comma-separated string to OpenTofu list format
+# OpenTofu accepts JSON arrays in tfvars files
 SSH_KEYS_LIST="[]"
 if [ -n "${SSH_KEYS}" ]; then
   # Convert comma-separated string to JSON array, trimming whitespace
@@ -107,21 +107,21 @@ echo "✅ terraform.tfvars generated:" >&2
 # Don't print sensitive values
 sed 's/do_token = .*/do_token = "***"/' terraform.tfvars | sed 's/n8n_encryption_key = .*/n8n_encryption_key = "***"/' >&2
 
-# Initialize Terraform
-echo "📦 Initializing Terraform..." >&2
-terraform init -input=false >&2
+# Initialize OpenTofu
+echo "📦 Initializing OpenTofu..." >&2
+tofu init -input=false >&2
 
 # Apply the configuration
-echo "⚙️  Applying Terraform configuration..." >&2
-terraform apply -auto-approve -input=false >&2
+echo "⚙️  Applying OpenTofu configuration..." >&2
+tofu apply -auto-approve -input=false >&2
 
 # Refresh the state to ensure it's up to date
-echo "🔄 Refreshing Terraform state..." >&2
-terraform refresh -input=false >&2
+echo "🔄 Refreshing OpenTofu state..." >&2
+tofu refresh -input=false >&2
 
 # Output the state file to stdout as a JSON array
 echo "📄 Outputting state file..." >&2
-STATE_JSON=$(terraform state pull)
+STATE_JSON=$(tofu state pull)
 # Wrap the state file JSON in an array using jq to ensure valid JSON
 echo "$STATE_JSON" | jq -s '.'
 

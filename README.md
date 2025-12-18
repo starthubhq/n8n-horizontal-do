@@ -1,6 +1,6 @@
 # 🤖 Production Grade Horizontal n8n on DigitalOcean
 
-Deploys production grade horizontal n8n on DigitalOcean using Terraform. Creates PostgreSQL and Valkey database clusters, main droplet, worker droplets, VPC, and optionally a load balancer with DNS.
+Deploys production grade horizontal n8n on DigitalOcean using OpenTofu. Creates PostgreSQL and Valkey database clusters, main droplet, worker droplets, VPC, and optionally a load balancer with DNS.
 
 ![Architecture Diagram](diagram/ee.png)
 
@@ -30,13 +30,13 @@ The module expects a JSON array of values in the following order:
 
 ## Output
 
-The module outputs the Terraform state file as a JSON array to stdout after the infrastructure is deployed. The state file contains all the information about the created DigitalOcean resources.
+The module outputs the OpenTofu state file as a JSON array to stdout after the infrastructure is deployed. The state file contains all the information about the created DigitalOcean resources.
 
 Example output:
 ```json
 [{
   "version": 4,
-  "terraform_version": "1.6.0",
+  "terraform_version": "1.8.2",
   "serial": 1,
   "lineage": "...",
   "outputs": {
@@ -94,7 +94,7 @@ The module will:
 6. Configure private networking between all resources
 7. Optionally create load balancer and DNS records (if domain_name is provided)
 8. Initialize n8n on all droplets with Docker
-9. Refresh the Terraform state to ensure it's up to date
+9. Refresh the OpenTofu state to ensure it's up to date
 10. Output the complete state file to stdout
 
 ## Build
@@ -118,7 +118,7 @@ echo '["your-token", "nyc1", "aa:bb:cc:dd:ee:ff", "3", "", ""]' | docker run -i 
 
 ## Features
 
-- ✅ Uses Terraform for infrastructure provisioning
+- ✅ Uses OpenTofu (open-source Terraform fork) for infrastructure provisioning
 - ✅ Creates managed PostgreSQL and Valkey database clusters
 - ✅ Deploys production grade horizontal n8n
 - ✅ Configures VPC for secure private networking
@@ -132,7 +132,7 @@ echo '["your-token", "nyc1", "aa:bb:cc:dd:ee:ff", "3", "", ""]' | docker run -i 
 ## 📦 Tech Stack
 
 - **DigitalOcean** for cloud infrastructure
-- **Terraform** for infrastructure provisioning
+- **OpenTofu/Terraform** for infrastructure provisioning
 - **PostgreSQL** (managed database) for n8n data storage
 - **Valkey** (Redis-compatible, managed database) for queue management
 - **Docker** for containerized n8n deployment

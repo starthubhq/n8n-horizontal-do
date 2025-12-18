@@ -11,18 +11,13 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Terraform
-RUN apt-get update && apt-get install -y \
-    software-properties-common \
-    && curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add - \
-    && apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" \
-    && apt-get update && apt-get install -y terraform \
-    && rm -rf /var/lib/apt/lists/*
+# Install OpenTofu
+RUN apt-get update && apt-get install curl -y && curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh -o install-opentofu.sh && chmod +x install-opentofu.sh && ./install-opentofu.sh --install-method deb && rm -f install-opentofu.sh
 
 # Working directory
 WORKDIR /app
 
-# Copy Terraform configuration files
+# Copy OpenTofu configuration files
 COPY main.tf .
 COPY variables.tf .
 COPY outputs.tf .
