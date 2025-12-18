@@ -1,0 +1,66 @@
+{
+  "name": "n8n-horizontal-do",
+  "description": "Deploys n8n with horizontal scaling on DigitalOcean using Terraform. Creates PostgreSQL and Valkey database clusters, main droplet, worker droplets, VPC, and optionally a load balancer with DNS.",
+  "version": "0.0.1",
+  "kind": "docker",
+  "manifest_version": 1,
+  "repository": "github.com/starthubhq/n8n-horizontal-do",
+  "license": "MIT",
+  "inputs": [
+    {
+      "name": "do_token",
+      "description": "DigitalOcean API token",
+      "type": "string",
+      "required": true,
+      "default": null
+    },
+    {
+      "name": "region",
+      "description": "DigitalOcean region (e.g., nyc1, sfo3, ams3). Defaults to 'nyc1'",
+      "type": "string",
+      "required": false,
+      "default": "nyc1"
+    },
+    {
+      "name": "ssh_keys",
+      "description": "Comma-separated list of SSH key fingerprints to add to droplets",
+      "type": "string",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "worker_count",
+      "description": "Number of worker droplets to create. Defaults to 3",
+      "type": "string",
+      "required": false,
+      "default": "3"
+    },
+    {
+      "name": "domain_name",
+      "description": "Domain name for n8n (e.g., n8n.example.com). Leave empty to skip DNS and load balancer setup. Defaults to empty",
+      "type": "string",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "n8n_encryption_key",
+      "description": "Encryption key for n8n (must be 32 hex characters). If not provided, will be auto-generated",
+      "type": "string",
+      "required": false,
+      "default": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "statefile",
+      "description": "Terraform state file in JSON format",
+      "type": "string",
+      "required": true
+    }
+  ],
+  "permissions": {
+    "net": ["http", "https"]
+  },
+  "mirrors": []
+}
+
