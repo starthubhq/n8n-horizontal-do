@@ -15,6 +15,7 @@ This Terraform configuration deploys n8n with horizontal scaling on DigitalOcean
 
 ## Quick Start
 
+
 ```bash
 # Copy example configuration
 cp .tfvars.example variables.tfvars
