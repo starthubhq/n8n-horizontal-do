@@ -60,7 +60,7 @@ nav:
     - Overview: architecture/overview.md
     - Infrastructure: architecture/infrastructure.md
   - Deployment:
-    - Terraform: deployment/terraform.md
+    - OpenTofu: deployment/opentofu.md
     - Post-Deployment: deployment/post-deployment.md
   - Troubleshooting: troubleshooting.md
 

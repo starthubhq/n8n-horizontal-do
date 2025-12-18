@@ -12,7 +12,7 @@ All initialization scripts save their output to log files for troubleshooting.
 
 ```bash
 # SSH into main instance
-ssh root@$(terraform output -raw main_public_ip)
+ssh root@$(tofu output -raw main_public_ip)
 
 # View initialization logs
 cat /var/log/n8n-main-init.log
@@ -61,7 +61,7 @@ tail -f /var/log/n8n-worker-init.log
 1. **Check database is ready:**
    ```bash
    # Databases take 10-15 minutes to provision
-   terraform output database_host
+   tofu output database_host
    ```
 
 2. **Verify SSL configuration:**
@@ -82,7 +82,7 @@ tail -f /var/log/n8n-worker-init.log
 
 1. **Verify Valkey is ready:**
    ```bash
-   terraform output valkey_host
+   tofu output valkey_host
    ```
 
 2. **Check TLS configuration:**
@@ -105,12 +105,12 @@ tail -f /var/log/n8n-worker-init.log
 
 1. **Verify all instances use the same key:**
    ```bash
-   terraform output -raw n8n_encryption_key
+   tofu output -raw n8n_encryption_key
    ```
 
 2. **Check environment variables:**
    ```bash
-   ssh root@$(terraform output -raw main_public_ip)
+   ssh root@$(tofu output -raw main_public_ip)
    docker exec n8n env | grep N8N_ENCRYPTION_KEY
    ```
 
@@ -169,20 +169,20 @@ tail -f /var/log/n8n-worker-init.log
 
 ```bash
 # Check all resources
-terraform show
+tofu show
 
 # Get connection details
-terraform output
+tofu output
 
 # Test main instance
-curl http://$(terraform output -raw main_public_ip):5678
+curl http://$(tofu output -raw main_public_ip):5678
 ```
 
 ### Verify Database Connections
 
 ```bash
 # SSH into main instance
-ssh root@$(terraform output -raw main_public_ip)
+ssh root@$(tofu output -raw main_public_ip)
 
 # Check PostgreSQL connection
 docker exec n8n env | grep DB_POSTGRESDB
@@ -210,7 +210,7 @@ If you encounter issues not covered here:
 
 1. Check the [n8n Documentation](https://docs.n8n.io)
 2. Review [DigitalOcean Documentation](https://docs.digitalocean.com)
-3. Check [Terraform DigitalOcean Provider Docs](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs)
+3. Check [OpenTofu DigitalOcean Provider Docs](https://opentofu.org/docs/language/providers/)
 4. Review initialization logs (see above)
 
 ## Cleanup
@@ -219,7 +219,7 @@ If you need to start over:
 
 ```bash
 # Destroy all resources
-terraform destroy
+tofu destroy
 
 # Remove state files (if needed)
 rm terraform.tfstate terraform.tfstate.backup

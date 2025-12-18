@@ -28,6 +28,27 @@ The module expects a JSON array of values in the following order:
 5. `domain_name` (string, optional): Domain name for n8n (e.g., "n8n.example.com"). Leave empty to skip DNS and load balancer setup. Defaults to empty string if not provided
 6. `n8n_encryption_key` (string, optional): Encryption key for n8n (must be 32 hex characters). If not provided, will be auto-generated
 
+### Additional Variables via Environment
+
+All variables from `variables.tf` can also be provided via environment variables. The Docker container will automatically detect and use any environment variables that match variable names.
+
+**Example:**
+```bash
+export CLUSTER_NAME="my-cluster"
+export POSTGRES_VERSION="16"
+export WORKER_COUNT="5"
+export TAGS='["production", "n8n"]'
+
+echo '["token", "nyc1", "", "3", "", ""]' | docker run -i -e CLUSTER_NAME -e POSTGRES_VERSION -e WORKER_COUNT -e TAGS n8n-horizontal-do
+```
+
+**Supported environment variable formats:**
+- Original name: `cluster_name`, `postgres_version`, etc.
+- Uppercase: `CLUSTER_NAME`, `POSTGRES_VERSION`, etc.
+- Uppercase with underscores: `CLUSTER_NAME` (for `cluster-name`)
+
+**All variables from `variables.tf` are supported.** See `variables.tfvars` or `.tfvars.example` for the complete list of available variables.
+
 ## Output
 
 The module outputs the OpenTofu state file as a JSON array to stdout after the infrastructure is deployed. The state file contains all the information about the created DigitalOcean resources.
@@ -112,13 +133,56 @@ rm n8n-horizontal-do.tar
 ## Test
 
 ```bash
-# Test with JSON array input (values in order: do_token, region, ssh_keys, worker_count, domain_name, n8n_encryption_key)
-echo '["your-token", "nyc1", "aa:bb:cc:dd:ee:ff", "3", "", ""]' | docker run -i n8n-horizontal-do
+# Full example with all variables:
+echo '[
+  "your-token",
+  "nyc1",
+  "aa:bb:cc:dd:ee:ff",
+  "3",
+  "n8n.example.com",
+  "",
+  "my-cluster",
+  "16",
+  "db-s-1vcpu-1gb",
+  "1",
+  "doadmin",
+  "[\"production\", \"n8n\"]",
+  "sunday",
+  "02",
+  "[{\"type\": \"tag\", \"value\": \"n8n\"}]",
+  "valkey-cluster",
+  "8",
+  "db-s-1vcpu-1gb",
+  "nyc1",
+  "1",
+  "doadmin",
+  "[\"production\", \"valkey\"]",
+  "[]",
+  "n8n-worker",
+  "s-1vcpu-1gb",
+  "docker-20-04",
+  "nyc1",
+  "[\"n8n\", \"worker\"]",
+  "",
+  "n8n-main",
+  "s-1vcpu-2gb",
+  "docker-20-04",
+  "nyc1",
+  "[\"n8n\", \"main\"]",
+  "",
+  "America/New_York",
+  "n8n-lb",
+  "lb-small",
+  "nyc1",
+  "",
+  "",
+  "true"
+]' | docker run -i n8n-horizontal-do
 ```
 
 ## Features
 
-- ✅ Uses OpenTofu (open-source Terraform fork) for infrastructure provisioning
+- ✅ Uses OpenTofu for infrastructure provisioning
 - ✅ Creates managed PostgreSQL and Valkey database clusters
 - ✅ Deploys production grade horizontal n8n
 - ✅ Configures VPC for secure private networking
@@ -132,7 +196,7 @@ echo '["your-token", "nyc1", "aa:bb:cc:dd:ee:ff", "3", "", ""]' | docker run -i 
 ## 📦 Tech Stack
 
 - **DigitalOcean** for cloud infrastructure
-- **OpenTofu/Terraform** for infrastructure provisioning
+- **OpenTofu** for infrastructure provisioning
 - **PostgreSQL** (managed database) for n8n data storage
 - **Valkey** (Redis-compatible, managed database) for queue management
 - **Docker** for containerized n8n deployment

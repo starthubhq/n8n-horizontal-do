@@ -4,7 +4,7 @@ Welcome to the documentation for deploying production grade horizontal n8n on Di
 
 ![Architecture Diagram](diagram/ee.png)
 
-This Terraform configuration deploys a production-ready n8n setup with:
+This OpenTofu configuration deploys a production-ready n8n setup with:
 
 - ✅ **PostgreSQL database cluster** - Managed database for n8n data
 - ✅ **Valkey (Redis) database cluster** - Queue backend for production grade horizontal n8n

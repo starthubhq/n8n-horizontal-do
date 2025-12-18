@@ -8,7 +8,7 @@ Before you begin, ensure you have:
 
 1. **DigitalOcean API token**: [Create one here](https://cloud.digitalocean.com/account/api/tokens)
 2. **SSH key added to DigitalOcean**: [Add it here](https://cloud.digitalocean.com/account/security)
-3. **Terraform installed**: [Download here](https://www.terraform.io/downloads)
+3. **OpenTofu installed**: [Download here](https://opentofu.org/docs/intro/install/)
 
 ## Step 1: Configure Variables
 
@@ -20,25 +20,25 @@ cp .tfvars.example variables.tfvars
 nano variables.tfvars
 ```
 
-## Step 2: Initialize Terraform
+## Step 2: Initialize OpenTofu
 
 ```bash
-# Initialize Terraform
-terraform init
+# Initialize OpenTofu
+tofu init
 ```
 
 ## Step 3: Review the Plan
 
 ```bash
 # Review what will be created
-terraform plan
+tofu plan
 ```
 
 ## Step 4: Deploy
 
 ```bash
 # Deploy the infrastructure
-terraform apply
+tofu apply
 ```
 
 This will create:
@@ -53,7 +53,7 @@ This will create:
 After deployment completes (~10-15 minutes), get your n8n URL:
 
 ```bash
-terraform output n8n_url
+tofu output n8n_url
 ```
 
 Then:

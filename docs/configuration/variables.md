@@ -1,6 +1,6 @@
 # Configuration Variables
 
-This page documents all available Terraform variables for customizing your n8n deployment.
+This page documents all available OpenTofu variables for customizing your n8n deployment.
 
 ## Required Variables
 

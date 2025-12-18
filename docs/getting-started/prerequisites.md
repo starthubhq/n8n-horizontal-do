@@ -13,7 +13,7 @@ Before deploying production grade horizontal n8n on DigitalOcean, ensure you hav
 
 1. Go to [API Tokens](https://cloud.digitalocean.com/account/api/tokens)
 2. Click "Generate New Token"
-3. Give it a name (e.g., "Terraform")
+3. Give it a name (e.g., "OpenTofu")
 4. Select "Write" scope
 5. Copy the token (you'll need it for `variables.tfvars`)
 
@@ -37,28 +37,28 @@ Before deploying production grade horizontal n8n on DigitalOcean, ensure you hav
 
 ## Required Software
 
-### Terraform
+### OpenTofu
 
-Install Terraform on your local machine:
+Install OpenTofu on your local machine:
 
 **macOS (Homebrew):**
 ```bash
-brew install terraform
+brew install opentofu
 ```
 
 **Linux:**
 ```bash
-# Download from https://www.terraform.io/downloads
+# Download from https://opentofu.org/docs/intro/install/
 # Or use your package manager
 ```
 
 **Windows:**
-- Download from [terraform.io/downloads](https://www.terraform.io/downloads)
-- Or use Chocolatey: `choco install terraform`
+- Download from [opentofu.org/docs/intro/install/](https://opentofu.org/docs/intro/install/)
+- Or use Chocolatey: `choco install opentofu`
 
 **Verify installation:**
 ```bash
-terraform version
+tofu version
 ```
 
 ### DigitalOcean CLI (Optional but Recommended)
@@ -82,8 +82,8 @@ doctl auth init
 
 - **Operating System**: macOS, Linux, or Windows
 - **RAM**: At least 4GB available
-- **Internet**: Stable connection for downloading Terraform providers and images
-- **Disk Space**: ~500MB for Terraform and providers
+- **Internet**: Stable connection for downloading OpenTofu providers and images
+- **Disk Space**: ~500MB for OpenTofu and providers
 
 ## Estimated Costs
 
