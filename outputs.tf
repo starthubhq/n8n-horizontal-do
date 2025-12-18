@@ -79,6 +79,38 @@ output "valkey_ca_certificate" {
   sensitive   = true
 }
 
+# Main Droplet Outputs
+output "main_id" {
+  description = "ID of the main droplet"
+  value       = digitalocean_droplet.main.id
+}
+
+output "main_name" {
+  description = "Name of the main droplet"
+  value       = digitalocean_droplet.main.name
+}
+
+output "main_public_ip" {
+  description = "Public IP address of the main droplet"
+  value       = digitalocean_droplet.main.ipv4_address
+}
+
+output "n8n_url" {
+  description = "URL to access n8n web interface"
+  value       = "http://${digitalocean_droplet.main.ipv4_address}:5678"
+}
+
+output "n8n_encryption_key" {
+  description = "Encryption key used by all n8n instances (save this securely!)"
+  value       = var.n8n_encryption_key
+  sensitive   = true
+}
+
+output "main_private_ip" {
+  description = "Private IP address of the main droplet"
+  value       = digitalocean_droplet.main.ipv4_address_private
+}
+
 # Worker Droplet Outputs
 output "worker_ids" {
   description = "IDs of the worker droplets"

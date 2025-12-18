@@ -70,11 +70,48 @@ valkey_tags = ["production", "valkey", "redis"]
 
 valkey_allowed_sources = []
 
+# Main Droplet Configuration
+main_name   = "n8n-main"
+main_size   = "s-1vcpu-2gb"
+# Docker marketplace image with Docker & Docker Compose pre-installed
+# Alternatives: "ubuntu-22-04-x64", "ubuntu-24-04-x64"
+main_image  = "docker-20-04"
+main_region = "nyc1"
+main_tags   = ["n8n", "main", "production"]
+
+# n8n Configuration
+n8n_timezone = "America/New_York"  # Options: UTC, America/New_York, Europe/London, Asia/Tokyo, etc.
+
+# Encryption Key (optional - will be auto-generated if not provided)
+# IMPORTANT: All n8n instances (main + workers) MUST use the same encryption key
+# If you set this manually, ensure it's exactly 32 hexadecimal characters (0-9, a-f)
+# Example: n8n_encryption_key = "a1b2c3d4e5f6789012345678901234ab"
+# Leave empty to auto-generate (recommended)
+n8n_encryption_key = ""
+
+# Optional: Cloud-init user data script for main instance initialization
+# If left empty, will automatically use main-init.sh which:
+#   - Sets EXECUTIONS_MODE=queue
+#   - Starts n8n with Docker connected to PostgreSQL and Valkey
+#   - Configures n8n for queue mode with horizontal scaling
+# Example custom script:
+# main_user_data = <<-EOF
+#   #!/bin/bash
+#   apt-get update
+#   apt-get install -y docker.io nginx
+#   systemctl start docker
+#   systemctl enable docker
+#   export EXECUTIONS_MODE=queue
+# EOF
+main_user_data = ""
+
 # Worker Droplets Configuration
 worker_count       = 3
 worker_name_prefix = "n8n-worker"
 worker_size        = "s-1vcpu-1gb"
-worker_image       = "ubuntu-22-04-x64"
+# Docker marketplace image with Docker & Docker Compose pre-installed
+# Alternatives: "ubuntu-22-04-x64", "ubuntu-24-04-x64"
+worker_image       = "docker-20-04"
 worker_region      = "nyc1"
 worker_tags        = ["n8n", "worker", "production"]
 
@@ -84,13 +121,15 @@ worker_tags        = ["n8n", "worker", "production"]
 ssh_keys = []
 
 # Optional: Cloud-init user data script for worker initialization
+# If left empty, will automatically use worker-init.sh (sets EXECUTIONS_MODE=queue)
 # This script will run on first boot of each worker
-# Example:
+# Example custom script:
 # worker_user_data = <<-EOF
 #   #!/bin/bash
 #   apt-get update
 #   apt-get install -y docker.io
 #   systemctl start docker
 #   systemctl enable docker
+#   export EXECUTIONS_MODE=queue
 # EOF
 worker_user_data = ""

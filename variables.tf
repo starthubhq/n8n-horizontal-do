@@ -139,9 +139,9 @@ variable "worker_size" {
 }
 
 variable "worker_image" {
-  description = "Droplet image/OS for workers"
+  description = "Droplet image/OS for workers (use 'docker-20-04' for Docker pre-installed)"
   type        = string
-  default     = "ubuntu-22-04-x64"
+  default     = "docker-20-04"
 }
 
 variable "worker_region" {
@@ -166,5 +166,55 @@ variable "worker_user_data" {
   description = "Optional cloud-init user data script for worker initialization"
   type        = string
   default     = ""
+}
+
+# Main Droplet Configuration
+variable "main_name" {
+  description = "Name for the main droplet"
+  type        = string
+  default     = "n8n-main"
+}
+
+variable "main_size" {
+  description = "Droplet size for main instance (e.g., s-1vcpu-1gb, s-2vcpu-2gb)"
+  type        = string
+  default     = "s-1vcpu-2gb"
+}
+
+variable "main_image" {
+  description = "Droplet image/OS for main instance (use 'docker-20-04' for Docker pre-installed)"
+  type        = string
+  default     = "docker-20-04"
+}
+
+variable "main_region" {
+  description = "DigitalOcean region for main droplet"
+  type        = string
+  default     = "nyc1"
+}
+
+variable "main_tags" {
+  description = "Tags to apply to main droplet"
+  type        = list(string)
+  default     = ["n8n", "main"]
+}
+
+variable "main_user_data" {
+  description = "Optional cloud-init user data script for main instance initialization"
+  type        = string
+  default     = ""
+}
+
+variable "n8n_timezone" {
+  description = "Timezone for n8n (e.g., America/New_York, Europe/London, UTC)"
+  type        = string
+  default     = "America/New_York"
+}
+
+variable "n8n_encryption_key" {
+  description = "Encryption key for n8n (must be the same across all instances). If not provided, will be auto-generated. Must be 32 characters long."
+  type        = string
+  default     = ""
+  sensitive   = true
 }
 
