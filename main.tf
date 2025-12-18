@@ -193,3 +193,123 @@ resource "digitalocean_droplet" "workers" {
     digitalocean_vpc.n8n_vpc
   ]
 }
+
+# Local values for DNS domain extraction (must be before resources that use them)
+locals {
+  # Extract base domain from domain_name or use provided dns_domain
+  base_domain = var.dns_domain != "" ? var.dns_domain : (
+    length(split(".", var.domain_name)) >= 2 ? join(".", slice(split(".", var.domain_name), length(split(".", var.domain_name)) - 2, length(split(".", var.domain_name)))) : var.domain_name
+  )
+  # Extract subdomain (everything before base domain)
+  subdomain = var.dns_domain != "" ? replace(var.domain_name, ".${var.dns_domain}", "") : (
+    length(split(".", var.domain_name)) > 2 ? join(".", slice(split(".", var.domain_name), 0, length(split(".", var.domain_name)) - 2)) : "@"
+  )
+}
+
+# Load Balancer with SSL Termination
+resource "digitalocean_loadbalancer" "n8n_lb" {
+  count  = var.domain_name != "" ? 1 : 0
+  name   = var.load_balancer_name
+  region = var.load_balancer_region
+  size   = var.load_balancer_size
+
+  # Forward HTTPS (443) to main droplet port 5678
+  forwarding_rule {
+    entry_port     = 443
+    entry_protocol = "https"
+    target_port    = 5678
+    target_protocol = "http"
+
+    # SSL certificate for HTTPS termination
+    # Use provided certificate name, or auto-created Let's Encrypt certificate
+    certificate_name = var.ssl_certificate_name != "" ? var.ssl_certificate_name : digitalocean_certificate.n8n_cert[0].name
+  }
+
+  # Health check
+  healthcheck {
+    port     = 5678
+    protocol = "http"
+    path     = "/healthz"
+    check_interval_seconds = 10
+    response_timeout_seconds = 5
+    healthy_threshold   = 3
+    unhealthy_threshold = 5
+  }
+
+  # Sticky sessions for n8n
+  sticky_sessions {
+    type = "cookies"
+    cookie_name = "DO_LB"
+    cookie_ttl_seconds = 300
+  }
+
+  # Attach main droplet
+  droplet_ids = [digitalocean_droplet.main.id]
+
+  # VPC configuration
+  vpc_uuid = digitalocean_vpc.n8n_vpc.id
+
+  depends_on = [
+    digitalocean_droplet.main,
+    digitalocean_certificate.n8n_cert
+  ]
+}
+
+# Domain resource - register domain in DigitalOcean DNS (required for Let's Encrypt)
+# This creates the domain if it doesn't exist, or uses it if it already exists
+# Use main droplet IP as placeholder - will be updated by DNS record to point to load balancer
+resource "digitalocean_domain" "n8n_domain" {
+  count = var.domain_name != "" && var.create_dns_record ? 1 : 0
+  name  = local.base_domain
+  # Use main droplet IP as placeholder (required by DigitalOcean domain resource)
+  # The actual A record will point to the load balancer
+  ip_address = digitalocean_droplet.main.ipv4_address
+
+  depends_on = [digitalocean_droplet.main]
+}
+
+# SSL Certificate (Let's Encrypt) - only if domain is provided and no cert name specified
+resource "digitalocean_certificate" "n8n_cert" {
+  count = var.domain_name != "" && var.ssl_certificate_name == "" ? 1 : 0
+  name  = "${replace(var.domain_name, ".", "-")}-cert"
+  type  = "lets_encrypt"
+  domains = [var.domain_name]
+
+  depends_on = [digitalocean_domain.n8n_domain]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+# DNS Record pointing to Load Balancer
+# If domain_name is a subdomain, create A record for subdomain
+# If domain_name is root domain, the domain resource already created the A record
+resource "digitalocean_record" "n8n_dns" {
+  count  = var.domain_name != "" && var.create_dns_record && local.subdomain != "@" ? 1 : 0
+  domain = local.base_domain
+  type   = "A"
+  name   = local.subdomain
+  value  = digitalocean_loadbalancer.n8n_lb[0].ip
+  ttl    = 3600
+
+  depends_on = [
+    digitalocean_loadbalancer.n8n_lb,
+    digitalocean_domain.n8n_domain
+  ]
+}
+
+# Update domain's root A record to point to load balancer if domain_name is root domain
+resource "digitalocean_record" "n8n_dns_root" {
+  count  = var.domain_name != "" && var.create_dns_record && local.subdomain == "@" ? 1 : 0
+  domain = local.base_domain
+  type   = "A"
+  name   = "@"
+  value  = digitalocean_loadbalancer.n8n_lb[0].ip
+  ttl    = 3600
+
+  depends_on = [
+    digitalocean_loadbalancer.n8n_lb,
+    digitalocean_domain.n8n_domain
+  ]
+}

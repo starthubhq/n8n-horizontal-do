@@ -97,6 +97,11 @@ output "main_public_ip" {
 
 output "n8n_url" {
   description = "URL to access n8n web interface"
+  value       = var.domain_name != "" ? "https://${var.domain_name}" : "http://${digitalocean_droplet.main.ipv4_address}:5678"
+}
+
+output "n8n_url_direct" {
+  description = "Direct URL to access n8n (bypassing load balancer)"
   value       = "http://${digitalocean_droplet.main.ipv4_address}:5678"
 }
 
@@ -140,5 +145,27 @@ output "vpc_id" {
 output "vpc_ip_range" {
   description = "IP range of the VPC"
   value       = digitalocean_vpc.n8n_vpc.ip_range
+}
+
+# Load Balancer Outputs
+output "load_balancer_ip" {
+  description = "IP address of the load balancer"
+  value       = var.domain_name != "" ? digitalocean_loadbalancer.n8n_lb[0].ip : null
+}
+
+output "load_balancer_id" {
+  description = "ID of the load balancer"
+  value       = var.domain_name != "" ? digitalocean_loadbalancer.n8n_lb[0].id : null
+}
+
+output "load_balancer_status" {
+  description = "Status of the load balancer"
+  value       = var.domain_name != "" ? digitalocean_loadbalancer.n8n_lb[0].status : null
+}
+
+# DNS Outputs
+output "dns_record_fqdn" {
+  description = "Fully qualified domain name for n8n"
+  value       = var.domain_name != "" && var.create_dns_record ? var.domain_name : null
 }
 

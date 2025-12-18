@@ -89,6 +89,29 @@ n8n_timezone = "America/New_York"  # Options: UTC, America/New_York, Europe/Lond
 # Leave empty to auto-generate (recommended)
 n8n_encryption_key = ""
 
+# Load Balancer and DNS Configuration (Optional)
+# Leave domain_name empty to skip load balancer and DNS setup
+domain_name = ""  # e.g., "n8n.example.com"
+
+# Load Balancer Settings
+load_balancer_name   = "n8n-lb"
+load_balancer_size   = "lb-small"  # Options: lb-small ($12/mo), lb-medium ($24/mo), lb-large ($48/mo)
+load_balancer_region = "nyc1"      # Should match main_region
+
+# SSL Certificate
+# Leave empty to auto-create Let's Encrypt certificate
+# Or provide name of existing DigitalOcean certificate
+ssl_certificate_name = ""
+
+# DNS Configuration
+# Base domain for DNS (e.g., "example.com")
+# If not provided, will be extracted from domain_name
+# Required if domain_name is a subdomain like "n8n.example.com"
+dns_domain = ""  # e.g., "example.com"
+
+# Whether to create DNS A record pointing to load balancer
+create_dns_record = true
+
 # Optional: Cloud-init user data script for main instance initialization
 # If left empty, will automatically use main-init.sh which:
 #   - Sets EXECUTIONS_MODE=queue

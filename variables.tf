@@ -218,3 +218,46 @@ variable "n8n_encryption_key" {
   sensitive   = true
 }
 
+# Load Balancer and DNS Configuration
+variable "domain_name" {
+  description = "Domain name for n8n (e.g., n8n.example.com). Leave empty to skip DNS and load balancer setup."
+  type        = string
+  default     = ""
+}
+
+variable "load_balancer_name" {
+  description = "Name for the load balancer"
+  type        = string
+  default     = "n8n-lb"
+}
+
+variable "load_balancer_size" {
+  description = "Size of the load balancer (lb-small, lb-medium, lb-large)"
+  type        = string
+  default     = "lb-small"
+}
+
+variable "load_balancer_region" {
+  description = "Region for the load balancer (should match main droplet region)"
+  type        = string
+  default     = "nyc1"
+}
+
+variable "ssl_certificate_name" {
+  description = "DigitalOcean certificate name for SSL termination. If not provided and domain_name is set, a Let's Encrypt certificate will be created automatically."
+  type        = string
+  default     = ""
+}
+
+variable "dns_domain" {
+  description = "Base domain name for DNS (e.g., 'example.com'). If not provided, will be extracted from domain_name. Required if domain_name is a subdomain."
+  type        = string
+  default     = ""
+}
+
+variable "create_dns_record" {
+  description = "Whether to create DNS A record pointing to the load balancer"
+  type        = bool
+  default     = true
+}
+

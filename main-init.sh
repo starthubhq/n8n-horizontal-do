@@ -36,6 +36,15 @@ else
 fi
 
 echo "================================================"
+echo "Opening firewall port for n8n"
+echo "================================================"
+
+# Open port 5678 for n8n
+echo "Opening port 5678 for n8n..."
+ufw allow 5678/tcp
+echo "✓ Port 5678 opened for n8n"
+
+echo "================================================"
 echo "Setting up n8n with Docker"
 echo "================================================"
 
