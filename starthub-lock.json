@@ -82,7 +82,7 @@
       "description": "Name of the database user",
       "type": "string",
       "required": false,
-      "default": "doadmin"
+      "default": "n8nuser"
     },
     {
       "name": "tags",
