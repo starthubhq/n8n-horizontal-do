@@ -33,7 +33,7 @@
       "description": "Number of worker droplets to create",
       "type": "string",
       "required": false,
-      "default": "3"
+      "default": "1"
     },
     {
       "name": "domain_name",
